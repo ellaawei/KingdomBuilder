@@ -1,1 +1,1 @@
-melody is gitbash obsessed (i think she's sponsered)
+melody is gitbash obsessed (i think she's sponsored)
