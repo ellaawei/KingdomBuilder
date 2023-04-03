@@ -1,12 +1,16 @@
+import javax.swing.JFrame;
 
-public class GameFrame 
+public class GameFrame extends JFrame
 {
 	private final int WIDTH;
 	private final int HEIGHT;
 	
-	public GameFrame()
+	public GameFrame() 
 	{
-		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		add(new GamePanel());
+		setVisible(true);
+		setResizable(false);
 	}
 	
 	public void nextScreen()
