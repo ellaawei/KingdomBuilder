@@ -1,0 +1,37 @@
+
+public class GameFrame 
+{
+	private final int WIDTH;
+	private final int HEIGHT;
+	
+	public GameFrame()
+	{
+		
+	}
+	
+	public void nextScreen()
+	{
+		
+	}
+	
+	public void previousScreen()
+	{
+		
+	}
+	
+	public void TileMaximise()
+	{
+		
+	}
+	
+	public void ObjectiveCards()
+	{
+		
+	}
+	
+	public static void main(String args[])
+	{
+		
+	}
+
+}
