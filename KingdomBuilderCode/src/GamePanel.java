@@ -12,17 +12,25 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 	private int x;
 	private int y;
 	
-	public static BufferedImage images;
+	public static BufferedImage images, board1, board2, board3, board4, board5, board6, board7, board8;
 	public GamePanel() throws IOException {
-		images = ImageIO.read(this.getClass().getResource("/pictures/objective cards.png"));
+		images = ImageIO.read(this.getClass().getResource("/Image/board.png"));
+		board1 = ImageIO.read(this.getClass().getResource("/Image/Board1.png"));
+		board2 = ImageIO.read(this.getClass().getResource("/Image/Board2.png"));
+		board3 = ImageIO.read(this.getClass().getResource("/Image/Board3.png"));
+		board4 = ImageIO.read(this.getClass().getResource("/Image/Board4.png"));
 		addMouseListener(this);
 		repaint();
 	}
 	public void paint(Graphics g) {
-		
 		g.drawImage(images, 0, 0, getWidth(), getHeight(), null);
-//		g.setColor(Color.BLACK);
-//		g.fillRect(100, 100, 100, 100);
+		g.drawImage(board1, -145, 45, 820, 495, null);
+		g.drawImage(board2, 272, 45, 820, 495, null);
+		g.drawImage(board3, -145, 433, 820, 495, null);
+		g.drawImage(board4, 272, 433, 820, 495, null);
+		
+		
+		
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
