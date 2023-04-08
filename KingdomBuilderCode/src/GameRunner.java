@@ -1,8 +1,10 @@
+import java.io.IOException;
+
 public class GameRunner 
 {
-	public static void main(String args[])
+	public static void main(String args[]) throws IOException
 	{
-		GameFrame frame = new GameFrame();
+		GameFrame a = new GameFrame("Kingdom Builder");
 
 	}
 }
