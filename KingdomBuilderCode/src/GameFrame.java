@@ -1,16 +1,16 @@
+
+import java.io.IOException;
+
 import javax.swing.JFrame;
 
-public class GameFrame extends JFrame
-{
-	private final int WIDTH;
-	private final int HEIGHT;
+public class GameFrame extends JFrame {
+	public static int WIDTH = 1600, HEIGHT = 960;
 	
-	public GameFrame() 
-	{
+	public GameFrame(String title) throws IOException {
+		setSize(WIDTH, HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		add(new GamePanel());
 		setVisible(true);
-		setResizable(false);
 	}
 	
 	public void nextScreen()
@@ -33,9 +33,5 @@ public class GameFrame extends JFrame
 		
 	}
 	
-	public static void main(String args[])
-	{
-		
-	}
 
 }
