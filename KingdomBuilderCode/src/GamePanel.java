@@ -24,13 +24,10 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 	}
 	public void paint(Graphics g) {
 		g.drawImage(images, 0, 0, getWidth(), getHeight(), null);
-		g.drawImage(board1, -145, 45, 820, 495, null);
-		g.drawImage(board2, 272, 45, 820, 495, null);
-		g.drawImage(board3, -145, 433, 820, 495, null);
-		g.drawImage(board4, 272, 433, 820, 495, null);
-		
-		
-		
+		g.drawImage(board1, -111, 45, 750, 445, null);
+		g.drawImage(board2, 270, 45, 750, 445, null);
+		g.drawImage(board3, -111, 393, 750, 445, null);
+		g.drawImage(board4, 270, 393, 750, 445, null);
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
