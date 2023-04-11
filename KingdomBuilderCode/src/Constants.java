@@ -1,6 +1,6 @@
 
 public class Constants {
-	public final int WORKERS = 0;
+    public final int WORKERS = 0;
     public final int CITIZENS = 1;
     public final int DISCOVERERS = 2;
     public final int KNIGHTS = 3;
