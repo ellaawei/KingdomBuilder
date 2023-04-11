@@ -12,9 +12,9 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 	private int x;
 	private int y;
 
-	private BufferedImage images;
+	private BufferedImage board;
 	private BufferedImage objCardsPage, tokensPage, terrainDeck;
-	private boolean clickedObjectiveCards, clickedViewTokens, clickedTerrain;
+	public static boolean clickedObjectiveCards, clickedViewTokens, clickedTerrain, clickedFinishTurn = false;
 	private ArrayList<BufferedImage> objectives;
 	private ArrayList<BufferedImage> currentObjectiveCards;
 	private Card c;
@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 		currentObjectiveCards = new ArrayList<BufferedImage>();
 		c = new Card();
 		b = new Board();
-		images = ImageIO.read(this.getClass().getResource("/Image/board.png"));
+		board = ImageIO.read(this.getClass().getResource("/Image/board.png"));
 		terrainDeck = ImageIO.read(this.getClass().getResource("/Image/TerrainDeck.png"));
 		objCardsPage = ImageIO.read(this.getClass().getResource("/Image/ObjectiveCardsPage.png"));
 		tokensPage = ImageIO.read(this.getClass().getResource("/Image/TokensPage.png"));
@@ -33,26 +33,35 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 		repaint();
 	}
 
-	public void paint(Graphics g) {
-		g.drawImage(images, 0, 0, getWidth(), getHeight(), null);
+	public void paint(Graphics g) 
+	{
+		g.drawImage(board, 0, 0, getWidth(), getHeight(), null);
 		g.drawImage(terrainDeck, 954, 27, 163, 220, null);
-		b.drawBoard(g);
-		
 		c.drawObjectiveCards(g);
-		if (c.getHasTerrainCardsLeft() && clickedTerrain) {
+		b.drawBoard(g);
+		if (c.getHasTerrainCardsLeft() && clickedTerrain) 
+		{
 			c.drawTerrainCards(g);
 			c.drawDiscard(g);
 		}
-		if (c.getHasTerrainCardsLeft() == false) {
+		if (c.getHasTerrainCardsLeft() == false) 
+		{
 			c.refill();
 		}
 
-		if (clickedObjectiveCards) {
+		if (clickedObjectiveCards) 
+		{
 			g.drawImage(objCardsPage, 0, 0, getWidth(), getHeight(), null);
 			return;
 		}
-		if (clickedViewTokens) {
+		if (clickedViewTokens) 
+		{
 			g.drawImage(tokensPage, 0, 0, getWidth(), getHeight(), null);
+		}
+		
+		if(clickedFinishTurn)
+		{
+			c.drawDiscard(g);
 		}
 	}
 
@@ -74,11 +83,19 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 		} else {
 			clickedViewTokens = false;
 		}
-		if (x >= 954 && x <= 1117 && y >= 27 && y <= 247) {
+		if (x >= 954 && x <= 1117 && y >= 27 && y <= 247) 
+		{
 			clickedTerrain = true;
-			if (c.getHasTerrainCardsLeft()) {
+			if (c.getHasTerrainCardsLeft()) 
+			{
 				c.removeTerrainCard();
 			}
+		}
+		
+		if(x >= 1345 && x <= 1450 && y >= 100 && y <= 320)
+		{
+			clickedFinishTurn = true;
+			
 		}
 		repaint();
 	}
