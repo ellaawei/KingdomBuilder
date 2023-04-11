@@ -54,14 +54,16 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 			g.drawImage(objCardsPage, 0, 0, getWidth(), getHeight(), null);
 			return;
 		}
-		if (clickedViewTokens) 
+		if (clickedViewTokens)
 		{
 			g.drawImage(tokensPage, 0, 0, getWidth(), getHeight(), null);
+			//return;
 		}
 		
-		if(clickedFinishTurn)
+		if(clickedFinishTurn && !clickedViewTokens && !clickedObjectiveCards)
 		{
 			c.drawDiscard(g);
+			//return;
 		}
 	}
 
@@ -80,6 +82,7 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 		}
 		if (x >= 1320 && x <= 1493 && y >= 162 && y <= 224) {
 			clickedViewTokens = true;
+			clickedFinishTurn = false;
 		} else {
 			clickedViewTokens = false;
 		}
@@ -92,7 +95,7 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 			}
 		}
 		
-		if(x >= 1345 && x <= 1450 && y >= 100 && y <= 320)
+		if(x >= 1305 && x <= 1510 && y >= 65 && y <= 140)
 		{
 			clickedFinishTurn = true;
 			
