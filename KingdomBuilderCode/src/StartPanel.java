@@ -1,8 +1,13 @@
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
-public class StartPanel 
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+
+public class StartPanel extends JPanel implements MouseListener
 {
 	private boolean startGame;
 	private String startMessage;
@@ -32,7 +37,7 @@ public class StartPanel
 	
 	public void paint(Graphics g)
 	{
-		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+		g.drawImage(startScreen, 0, 0, getWidth(), getHeight(), null);
 	}
 	
 	public void rotateBoards()
@@ -41,7 +46,7 @@ public class StartPanel
 	}
 	public void mouseClicked(MouseEvent e) {}
 	
-	public void MousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
 		if(x>=532 && x<=1052 && y>=445 && y<=577) {
