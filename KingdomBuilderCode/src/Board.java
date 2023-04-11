@@ -40,11 +40,10 @@ public class Board {
 		
 	}
 	public void drawBoard(Graphics g) {
-		g.drawImage(boards.get(0), -111, 44, 750, 445, null);
-		g.drawImage(boards.get(1), 270, 44, 750, 445, null);
-		g.drawImage(boards.get(2), -111, 393, 750, 445, null);
-		g.drawImage(boards.get(3), 270, 393, 750, 445, null);
+		g.drawImage(boards.get(0), -111, 44, 775, 445, null);
+		g.drawImage(boards.get(1), 283, 44, 775, 445, null);
+		g.drawImage(boards.get(2), -111, 393, 775, 445, null);
+		g.drawImage(boards.get(3), 283, 393, 775, 445, null);
 	}
 	
 }
-
