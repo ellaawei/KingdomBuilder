@@ -57,14 +57,19 @@ public class Card {
 		Collections.shuffle(terrainCards);
 	}
 
-	public void drawTerrainCards(Graphics g) {
-
+	public void drawTerrainCards(Graphics g) 
+	{
 		g.drawImage(terrainCards.get(0), 1068, 316, 149, 215, null);
-		discard.add(0, terrainCards.get(0));
+		if(GamePanel.clickedFinishTurn)
+		{
+			discard.add(0, terrainCards.get(0));
+		}
 	}
 
-	public void drawDiscard(Graphics g) {
-		g.drawImage(discard.get(0), 1129, 27, 163, 220, null);
+	public void drawDiscard(Graphics g) 
+	{
+		if(GamePanel.clickedFinishTurn)
+			g.drawImage(discard.get(0), 1129, 27, 163, 220, null);
 	}
 
 	public void removeTerrainCard() {
@@ -76,9 +81,9 @@ public class Card {
 	}
 
 	public void drawObjectiveCards(Graphics g) {
-		g.drawImage(objectiveCards.get(0), 100, 100, 250, 300, null);
-		g.drawImage(objectiveCards.get(1), 300, 400, 250, 300, null);
-		g.drawImage(objectiveCards.get(2), 200, 200, 250, 300, null);
+		g.drawImage(objectiveCards.get(0), 95, 55, 200, 250, null);
+		g.drawImage(objectiveCards.get(1), 295, 55, 200, 250, null);
+		g.drawImage(objectiveCards.get(2), 495, 55, 200, 250, null);
 	}
 
 	public boolean getHasTerrainCardsLeft() {
@@ -89,7 +94,7 @@ public class Card {
 	public void setHasCardLeft(boolean bool) {
 		hasCardsLeft = bool;
 	}
-
+	
 	public void refill() {
 		for (int i = 0; i < 5; i++) {
 			terrainCards.add(grass);
@@ -98,6 +103,6 @@ public class Card {
 			terrainCards.add(flower);
 			terrainCards.add(forest);
 		}
+		Collections.shuffle(terrainCards);
 	}
-
 }
