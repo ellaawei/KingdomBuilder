@@ -13,7 +13,7 @@ public class Player()
         locationTiles = new ArrayList<>();
     }
     public boolean isNear(Tile locationTile) {}
-    public int tokensLeft();
+    public int tokensLeft() {}
 
 
     public String getColor() {
