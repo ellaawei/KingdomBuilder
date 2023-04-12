@@ -1,4 +1,5 @@
 
+
 public class Player()
 {
     private String myColor;
@@ -12,7 +13,7 @@ public class Player()
     {
         locationTiles = new ArrayList<>();
     }
-    public boolean isNear(Tile locationTile) {}
+    public boolean isNear(Tiles locationTile) {}
     public int tokensLeft() {}
 
 
