@@ -1,17 +1,19 @@
+import java.util.*;
+import java.awt.image.BufferedImage;
 
-
-public class Player()
+public class Player
 {
     private String myColor;
     private boolean isFirst;
     private ArrayList<Tiles> locationTiles;
-    private Settlement settlemets[40];
+    private Settlement[] settlements;
     private int score;
     private BufferedImage currentSettlement;
 
-    pubilc Player()
+    public Player()
     {
         locationTiles = new ArrayList<>();
+        settlements = new Settlement[40];
     }
     public boolean isNear(Tiles locationTile) {}
     public int tokensLeft() {}
@@ -23,12 +25,20 @@ public class Player()
     public boolean isFirst() {
         return isFirst;
     }
-    public ArrayList<Tiles> getLocationTiles() {}
+    public ArrayList<Tiles> getLocationTiles() {
+        return locationTiles;
+    }
+
     public void setColor(String color) {
         myColor = color;
     }
-    public void sellsFirst(boolean first) {}
-    public void setLocationTiles(ArrayList<Tiles>locations) {}
+    public void sellsFirst(boolean first) {
+        isFirst = first;
+    }
+
+    public void setLocationTiles(ArrayList<Tiles>locationTiles) {
+        this.locationTiles = locationTiles;
+    }
     public int getScore() {
         return score;
     }
