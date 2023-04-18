@@ -16,7 +16,9 @@ public class Player
         settlements = new Settlement[40];
     }
     public boolean isNear(Tiles locationTile) {}
-    public int tokensLeft() {}
+    public int tokensLeft() {
+            return locationTiles.size();
+    }
 
 
     public String getColor() {
