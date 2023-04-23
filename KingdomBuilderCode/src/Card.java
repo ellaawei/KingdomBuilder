@@ -7,28 +7,39 @@ import javax.imageio.ImageIO;
 
 public class Card {
 	private ArrayList<BufferedImage> objectiveCards;
-	private ArrayList<BufferedImage> terrainCards;
+	private ArrayList<TerrainCard> terrainCards;
 	private ArrayList<BufferedImage> discard;
-
-	private boolean hasCardsLeft;
 	private BufferedImage workers, citizens, discoverers, knights, lords, farmers, merchants, fisherman, miners,
 			hermits;
-	private BufferedImage grass, canyon, desert, flower, forest;
-
+	//private BufferedImage grass, canyon, desert, flower, forest;
+	private int cw=149, ch=215, sx=1068, sy=316;
+	private int[] cx= {sx, sx+cw*2, sx, sx+cw*2}, cy= {sy, sy, sy+ch+40, sy+ch+40};
+	
+	class TerrainCard
+	{
+		public BufferedImage image;
+		public Color color;
+		
+		public TerrainCard(BufferedImage image, Color color)
+		{
+			this.image = image;
+			this.color = color;
+		}
+	}
 	public Card() throws IOException {
 		objectiveCards = new ArrayList<>();
 		terrainCards = new ArrayList<>();
 		discard = new ArrayList<>();
-		workers = ImageIO.read(this.getClass().getResource("/Image/ObjectiveWorkers.png"));
-		citizens = ImageIO.read(this.getClass().getResource("/Image/ObjectiveCitizens.png"));
-		discoverers = ImageIO.read(this.getClass().getResource("/Image/ObjectiveDiscoverers.png"));
-		knights = ImageIO.read(this.getClass().getResource("/Image/ObjectiveKnights.png"));
-		lords = ImageIO.read(this.getClass().getResource("/Image/ObjectiveLords.png"));
-		farmers = ImageIO.read(this.getClass().getResource("/Image/ObjectiveFarmers.png"));
-		merchants = ImageIO.read(this.getClass().getResource("/Image/ObjectiveMerchants.png"));
-		fisherman = ImageIO.read(this.getClass().getResource("/Image/ObjectiveFisherman.png"));
-		miners = ImageIO.read(this.getClass().getResource("/Image/ObjectiveMiners.png"));
-		hermits = ImageIO.read(this.getClass().getResource("/Image/ObjectiveHermits.png"));
+		workers = ImageIO.read(this.getClass().getResource("/pictures/ObjectiveWorkers.png"));
+		citizens = ImageIO.read(this.getClass().getResource("/pictures/ObjectiveCitizens.png"));
+		discoverers = ImageIO.read(this.getClass().getResource("/pictures/ObjectiveDiscoverers.png"));
+		knights = ImageIO.read(this.getClass().getResource("/pictures/ObjectiveKnights.png"));
+		lords = ImageIO.read(this.getClass().getResource("/pictures/ObjectiveLords.png"));
+		farmers = ImageIO.read(this.getClass().getResource("/pictures/ObjectiveFarmers.png"));
+		merchants = ImageIO.read(this.getClass().getResource("/pictures/ObjectiveMerchants.png"));
+		fisherman = ImageIO.read(this.getClass().getResource("/pictures/ObjectiveFisherman.png"));
+		miners = ImageIO.read(this.getClass().getResource("/pictures/ObjectiveMiners.png"));
+		hermits = ImageIO.read(this.getClass().getResource("/pictures/ObjectiveHermits.png"));
 
 		objectiveCards.add(workers);
 		objectiveCards.add(citizens);
@@ -41,33 +52,30 @@ public class Card {
 		objectiveCards.add(miners);
 		objectiveCards.add(hermits);
 
-		grass = ImageIO.read(this.getClass().getResource("/Image/TerrainGrass.png"));
-		canyon = ImageIO.read(this.getClass().getResource("/Image/TerrainCanyon.png"));
-		desert = ImageIO.read(this.getClass().getResource("/Image/TerrainDesert.png"));
-		flower = ImageIO.read(this.getClass().getResource("/Image/TerrainFlower.png"));
-		forest = ImageIO.read(this.getClass().getResource("/Image/TerrainForest.png"));
 		for (int i = 0; i < 5; i++) {
-			terrainCards.add(grass);
-			terrainCards.add(canyon);
-			terrainCards.add(desert);
-			terrainCards.add(flower);
-			terrainCards.add(forest);
+			terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainGrass.png")), Color.GREEN));
+			terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainCanyon.png")), new Color(102, 51, 0)));
+			terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainDesert.png")), Color.YELLOW));
+			terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainFlower.png")), Color.PINK));
+			terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainForest.png")), new Color(0, 102, 0)));
 		}
 		Collections.shuffle(objectiveCards);
 		Collections.shuffle(terrainCards);
 	}
-
+	
 	public void drawTerrainCards(Graphics g) 
 	{
-		g.drawImage(terrainCards.get(0), 1068, 316, 149, 215, null);
-		if(GamePanel.clickedFinishTurn)
-		{
-			discard.add(0,terrainCards.get(0));
+		if(GamePanel.click==GamePanel.clickType.terrain) {
+			Board.activePlayer++;
+			Board.activePlayer%=4;
+			g.drawImage(terrainCards.get(0).image, cx[Board.activePlayer], cy[Board.activePlayer], cw, ch, null);
+			Board.players[Board.activePlayer].setTerrainColor(terrainCards.get(0).color);
 		}
 	}
 
 	public void drawDiscard(Graphics g) 
 	{
+		discard.add(0, terrainCards.get(0).image);
 		if(GamePanel.clickedFinishTurn)
 		{
 			g.drawImage(discard.get(0), 1129, 27, 163, 220, null);
@@ -78,9 +86,9 @@ public class Card {
 		terrainCards.remove(0);
 	}
 
-	public ArrayList<BufferedImage> getTerrainCards() {
-		return terrainCards;
-	}
+	//public ArrayList<BufferedImage> getTerrainCards() {
+	//	return terrainCards;
+	//}
 
 	public void drawObjectiveCards(Graphics g) {
 		g.drawImage(objectiveCards.get(0), 95, 55, 200, 250, null);
@@ -89,21 +97,16 @@ public class Card {
 	}
 
 	public boolean getHasTerrainCardsLeft() {
-		hasCardsLeft = !terrainCards.isEmpty();
-		return hasCardsLeft;
-	}
-
-	public void setHasCardLeft(boolean bool) {
-		hasCardsLeft = bool;
+		return !terrainCards.isEmpty();
 	}
 	
-	public void refill() {
+	public void refill() throws IOException {
 		for (int i = 0; i < 5; i++) {
-			terrainCards.add(grass);
-			terrainCards.add(canyon);
-			terrainCards.add(desert);
-			terrainCards.add(flower);
-			terrainCards.add(forest);
+			terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainGrass.png")), Color.GREEN));
+			terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainCanyon.png")), new Color(102, 51, 0)));  // brown
+			terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainDesert.png")), Color.YELLOW));
+			terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainFlower.png")), Color.PINK));
+			terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainForest.png")), new Color(0, 102, 0)));
 		}
 		Collections.shuffle(terrainCards);
 	}
