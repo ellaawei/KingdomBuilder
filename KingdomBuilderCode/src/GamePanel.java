@@ -14,21 +14,23 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 
 	private BufferedImage board;
 	private BufferedImage objCardsPage, tokensPage, terrainDeck;
-	public static boolean clickedObjectiveCards, clickedViewTokens, clickedTerrain, clickedFinishTurn = false;
+	public static boolean clickedObjectiveCards, clickedViewTokens, clickedTerrain, clickedFinishTurn;
 	private ArrayList<BufferedImage> objectives;
 	private ArrayList<BufferedImage> currentObjectiveCards;
 	private Card c;
 	private Board b;
-
+	public enum clickType{none, terrain, finishedTurn, viewTokens, objectiveCards};
+	public static clickType click;
 	public GamePanel() throws IOException {
 		objectives = new ArrayList<BufferedImage>();
 		currentObjectiveCards = new ArrayList<BufferedImage>();
 		c = new Card();
 		b = new Board();
-		board = ImageIO.read(this.getClass().getResource("/Image/board.png"));
-		terrainDeck = ImageIO.read(this.getClass().getResource("/Image/TerrainDeck.png"));
-		objCardsPage = ImageIO.read(this.getClass().getResource("/Image/ObjectiveCardsPage.png"));
-		tokensPage = ImageIO.read(this.getClass().getResource("/Image/TokensPage.png"));
+		board = ImageIO.read(this.getClass().getResource("/pictures/board.png"));
+		terrainDeck = ImageIO.read(this.getClass().getResource("/pictures/TerrainDeck.png"));
+		objCardsPage = ImageIO.read(this.getClass().getResource("/pictures/ObjectiveCardsPage.png"));
+		tokensPage = ImageIO.read(this.getClass().getResource("/pictures/TokensPage.png"));
+		clickedTerrain = false;
 		addMouseListener(this);
 		repaint();
 	}
@@ -39,28 +41,32 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 		g.drawImage(terrainDeck, 954, 27, 163, 220, null);
 		c.drawObjectiveCards(g);
 		b.drawBoard(g);
-		if (c.getHasTerrainCardsLeft() && clickedTerrain) 
+		if (c.getHasTerrainCardsLeft() && click==clickType.terrain) 
 		{
 			c.drawTerrainCards(g);
-			c.drawDiscard(g);
 		}
 		if (c.getHasTerrainCardsLeft() == false) 
 		{
-			c.refill();
+			try {
+				c.refill();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
-		if (clickedObjectiveCards) 
+		if (click==clickType.objectiveCards) 
 		{
 			g.drawImage(objCardsPage, 0, 0, getWidth(), getHeight(), null);
 			return;
 		}
-		if (clickedViewTokens)
+		else if (click==clickType.viewTokens)
 		{
 			g.drawImage(tokensPage, 0, 0, getWidth(), getHeight(), null);
-			//return;
+			return;
 		}
 		
-		if(clickedFinishTurn && !clickedViewTokens && !clickedObjectiveCards)
+		else if(click==clickType.finishedTurn)
 		{
 			c.drawDiscard(g);
 			//return;
@@ -75,31 +81,26 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 	public void mousePressed(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
+		click = clickType.none;
 		if (x >= 703 && x <= 876 && y >= 35 && y <= 85) {
-			clickedObjectiveCards = true;
-		} else {
-			clickedObjectiveCards = false;
+			click=clickType.objectiveCards;
 		}
-		if (x >= 1320 && x <= 1493 && y >= 162 && y <= 224) {
-			clickedViewTokens = true;
-			clickedFinishTurn = false;
-		} else {
-			clickedViewTokens = false;
+		else if (x >= 1320 && x <= 1493 && y >= 162 && y <= 224) {
+			click=clickType.viewTokens;
 		}
-		if (x >= 954 && x <= 1117 && y >= 27 && y <= 247) 
+		else if (x >= 954 && x <= 1117 && y >= 27 && y <= 247) 
 		{
-			clickedTerrain = true;
 			if (c.getHasTerrainCardsLeft()) 
 			{
 				c.removeTerrainCard();
 			}
+			click=clickType.terrain;
 		}
-		
-		if(x >= 1305 && x <= 1510 && y >= 65 && y <= 140)
+		else if(x >= 1305 && x <= 1510 && y >= 65 && y <= 140)
 		{
-			clickedFinishTurn = true;
-			
+			click=clickType.finishedTurn;
 		}
+		b.mouseClick(e.getPoint());
 		repaint();
 	}
 
