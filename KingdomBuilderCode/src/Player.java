@@ -1,46 +1,58 @@
-import java.util.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.*;
+
+import javax.imageio.ImageIO;
 
 public class Player
 {
-    private String myColor;
+    public Color settlementColor;
+    public Color terrainColor;
+    
     private boolean isFirst;
-    private ArrayList<Tiles> locationTiles;
-    private Settlement[] settlements;
+    private ArrayList<Hexagon> locationTiles;
+    private Settlement settlements[];
     private int score;
     private BufferedImage currentSettlement;
 
     public Player()
     {
+    	settlements = new Settlement[40];
         locationTiles = new ArrayList<>();
-        settlements = new Settlement[40];
     }
-    public boolean isNear(Tiles locationTile) {}
+    public boolean isNear(Tiles locationTile) 
+    {
+    	return false;
+    }
+    
     public int tokensLeft() {
-            return locationTiles.size();
+    	return 0;
     }
-
-
-    public String getColor() {
-        return myColor;
+    public Color getSettlementColor() {
+        return settlementColor;
+    }
+    public Color getTerrainColor() {
+        return terrainColor;
     }
     public boolean isFirst() {
         return isFirst;
     }
-    public ArrayList<Tiles> getLocationTiles() {
-        return locationTiles;
+    public void addTile(Hexagon h)
+    {
+    	locationTiles.add(h);
     }
-
-    public void setColor(String color) {
-        myColor = color;
+    public ArrayList<Hexagon> getLocationTiles() {
+    	return locationTiles;
     }
-    public void sellsFirst(boolean first) {
-        isFirst = first;
+    public void setSettlementColor(Color color) {
+        settlementColor =color;
     }
-
-    public void setLocationTiles(ArrayList<Tiles>locationTiles) {
-        this.locationTiles = locationTiles;
+    public void setTerrainColor(Color color) {
+    	terrainColor =color;
     }
+    public void sellsFirst(boolean first) {}
+    public void setLocationTiles(ArrayList<Tiles>locations) {}
     public int getScore() {
         return score;
     }
