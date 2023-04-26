@@ -14,6 +14,8 @@ public class Card {
 	//private BufferedImage grass, canyon, desert, flower, forest;
 	private int cw=149, ch=215, sx=1068, sy=316;
 	private int[] cx= {sx, sx+cw*2, sx, sx+cw*2}, cy= {sy, sy, sy+ch+40, sy+ch+40};
+	public static boolean terrainClicked = false;
+	private int count = -1;
 	
 	class TerrainCard
 	{
@@ -65,12 +67,22 @@ public class Card {
 	
 	public void drawTerrainCards(Graphics g) 
 	{
-		if(GamePanel.click==GamePanel.clickType.terrain) {
-			Board.activePlayer++;
-			Board.activePlayer%=4;
-			g.drawImage(terrainCards.get(0).image, cx[Board.activePlayer], cy[Board.activePlayer], cw, ch, null);
-			Board.players[Board.activePlayer].setTerrainColor(terrainCards.get(0).color);
+		if(GamePanel.click == GamePanel.clickType.terrain)
+		{
+			if(count == -1)
+			{
+				Board.activePlayer = 0;
+				//count = 0;
+			}
+			count = 0;
+			if(count == 0)
+			{
+				g.drawImage(terrainCards.get(0).image, cx[Board.activePlayer], cy[Board.activePlayer], cw, ch, null);
+				Board.players[Board.activePlayer].setTerrainColor(terrainCards.get(0).color);
+				count = 2;
+			}
 		}
+		
 	}
 
 	public void drawDiscard(Graphics g) 
