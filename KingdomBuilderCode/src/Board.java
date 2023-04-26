@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
@@ -33,12 +34,16 @@ public class Board {
 
 	public Board() throws IOException {
 		players[0] = new Player();
+		players[0].settlementNum = 40;
 		players[0].setSettlementColor(new Color(124, 124, 124));
 		players[1] = new Player();
+		players[1].settlementNum = 40;
 		players[1].setSettlementColor(new Color(255, 158, 0));
 		players[2] = new Player();
+		players[2].settlementNum = 40;
 		players[2].setSettlementColor(new Color(0, 108, 255));
 		players[3] = new Player();
+		players[3].settlementNum = 40;
 		players[3].setSettlementColor(Color.WHITE);
 		boards = new ArrayList<SubBoard>();
 		board1 = new SubBoard(ImageIO.read(this.getClass().getResource("/pictures/Board1.png")), "One.txt");
@@ -122,12 +127,46 @@ public class Board {
 		g.drawImage(boards.get(1).image, 283, 44, 775, 445, null);
 		g.drawImage(boards.get(2).image, -111, 393, 775, 445, null);
 		g.drawImage(boards.get(3).image, 283, 393, 775, 445, null);
-
-		for (Hexagon h : houses) {
+//		if(activePlayer == 0)
+//		{
+//			g.drawString(players[0].getSettlementNum() + "", 960, 515);
+//		}
+//		else if(activePlayer == 1)
+//		{
+//			//g.drawString(players[1].getSettlementNum() + "", 960, 515);
+//		}
+		
+		for (Hexagon h : houses) 
+		{
 			Polygon p = new Polygon(h.xpoints(), h.ypoints(), 6);
 			g.setColor(h.getColor());
 			g.fillPolygon(p);
 			g.drawPolygon(p);
+		}
+		
+		if(activePlayer == 1)
+		{
+			players[activePlayer].x = 960;
+			players[activePlayer].y = 515;
+		}
+		else if(activePlayer == 2)
+		{
+			players[activePlayer].x = 950;
+			players[activePlayer].y = 775;
+		}
+		else if(activePlayer == 3)
+		{
+			players[activePlayer].x = 1263;
+			players[activePlayer].y = 515;
+		}
+		else if(activePlayer == 4)
+		{
+			players[activePlayer].x = 1263;
+			players[activePlayer].y = 775;
+		}
+		if(activePlayer >=0)
+		{
+			players[activePlayer].paintPlayer(g);
 		}
 	}
 
@@ -146,12 +185,11 @@ public class Board {
 					{
 						players[activePlayer].addTile(h);
 						houses.add(hex);
+						players[activePlayer].settlementsLeft(1);
 					}
 				}
 			}
 		}
 	}
-	
-	//hi
 
 }
