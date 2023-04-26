@@ -12,18 +12,26 @@ public class Player
     
     private boolean isFirst;
     private ArrayList<Hexagon> locationTiles;
-    private Settlement settlements[];
+    //private Settlement settlements[];
     private int score;
     private BufferedImage currentSettlement;
+    public int settlementNum;
+    public int x = 960, y = 515;
 
     public Player()
     {
-    	settlements = new Settlement[40];
+    	//settlements = new Settlement[40];
         locationTiles = new ArrayList<>();
+        settlementNum = 40;
     }
     public boolean isNear(Tiles locationTile) 
     {
     	return false;
+    }
+    
+    public int getSettlementNum()
+    {
+    	return settlementNum;
     }
     
     public int tokensLeft() {
@@ -50,6 +58,29 @@ public class Player
     }
     public void setTerrainColor(Color color) {
     	terrainColor =color;
+    }
+    
+    public void settlementsLeft(int x)
+    {
+    	settlementNum = settlementNum - x;
+    }
+    public void paintPlayer(Graphics g)
+    {
+    	if(x == 1263 && y == 515)
+    	{
+    		g.setColor(Color.white);
+    	}
+    	else
+    	{
+    		g.setColor(Color.black);
+    	}
+		g.setFont(new Font("Times New Roman", Font.BOLD, 30));
+		g.drawString(getSettlementNum() + "", x, y);
+//		g.setColor(Color.white);
+//		g.drawString(players[1].getSettlementNum() + "", 1263, 517);
+//		g.setColor(Color.black);
+//		g.drawString(players[2].getSettlementNum() + "", 960, 775);
+//		g.drawString(players[0].getSettlementNum() + "", 1265, 777);
     }
     public void sellsFirst(boolean first) {}
     public void setLocationTiles(ArrayList<Tiles>locations) {}
