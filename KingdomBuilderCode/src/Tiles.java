@@ -1,4 +1,4 @@
-
+import java.awt.Point;
 public class Tiles 
 {
 	private int terrainType;
