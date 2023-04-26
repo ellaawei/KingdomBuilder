@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
+import javax.swing.plaf.ColorUIResource;
 
 public class Board {
 	private SubBoard board1, board2, board3, board4, board5, board6, board7, board8;
@@ -34,17 +35,17 @@ public class Board {
 
 	public Board() throws IOException {
 		players[0] = new Player();
-		players[0].settlementNum = 40;
-		players[0].setSettlementColor(new Color(124, 124, 124));
+		//players[0].settlementNum = 40;
+		players[0].setSettlementColor(new Color(255, 128, 0));
 		players[1] = new Player();
-		players[1].settlementNum = 40;
-		players[1].setSettlementColor(new Color(255, 158, 0));
+		//players[1].settlementNum = 40;
+		players[1].setSettlementColor(new Color(124, 124, 124));
 		players[2] = new Player();
-		players[2].settlementNum = 40;
-		players[2].setSettlementColor(new Color(0, 108, 255));
+		//players[2].settlementNum = 40;
+		players[2].setSettlementColor(Color.white);
 		players[3] = new Player();
-		players[3].settlementNum = 40;
-		players[3].setSettlementColor(Color.WHITE);
+		//players[3].settlementNum = 40;
+		players[3].setSettlementColor(new Color(0, 112, 255));
 		boards = new ArrayList<SubBoard>();
 		board1 = new SubBoard(ImageIO.read(this.getClass().getResource("/pictures/Board1.png")), "One.txt");
 		board2 = new SubBoard(ImageIO.read(this.getClass().getResource("/pictures/Board2.png")), "Two.txt");
@@ -143,31 +144,7 @@ public class Board {
 			g.fillPolygon(p);
 			g.drawPolygon(p);
 		}
-		
-		if(activePlayer == 1)
-		{
-			players[activePlayer].x = 960;
-			players[activePlayer].y = 515;
-		}
-		else if(activePlayer == 2)
-		{
-			players[activePlayer].x = 950;
-			players[activePlayer].y = 775;
-		}
-		else if(activePlayer == 3)
-		{
-			players[activePlayer].x = 1263;
-			players[activePlayer].y = 515;
-		}
-		else if(activePlayer == 4)
-		{
-			players[activePlayer].x = 1263;
-			players[activePlayer].y = 775;
-		}
-		if(activePlayer >=0)
-		{
-			players[activePlayer].paintPlayer(g);
-		}
+		//	players[activePlayer].paintPlayer(g);
 	}
 
 	public void mouseClick(Point p) {
@@ -185,7 +162,7 @@ public class Board {
 					{
 						players[activePlayer].addTile(h);
 						houses.add(hex);
-						players[activePlayer].settlementsLeft(1);
+						//players[activePlayer].settlementsLeft(1);
 					}
 				}
 			}
