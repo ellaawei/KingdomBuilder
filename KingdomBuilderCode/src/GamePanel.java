@@ -22,6 +22,9 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 	public enum clickType{none, terrain, finishedTurn, viewTokens, objectiveCards};
 	public static clickType click;
 	private static boolean terrainClicked = false;
+	public Color col;
+	public int P1Houses, P2Houses, P3Houses, P4Houses;
+	
 	public GamePanel() throws IOException {
 		objectives = new ArrayList<BufferedImage>();
 		currentObjectiveCards = new ArrayList<BufferedImage>();
@@ -32,12 +35,17 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 		objCardsPage = ImageIO.read(this.getClass().getResource("/pictures/ObjectiveCardsPage.png"));
 		tokensPage = ImageIO.read(this.getClass().getResource("/pictures/TokensPage.png"));
 		clickedTerrain = false;
+		P1Houses = 40;
+		P2Houses = 40;
+		P3Houses = 40;
+		P4Houses = 40;
 		addMouseListener(this);
 		repaint();
 	}
 
 	public void paint(Graphics g) 
 	{
+		int count = 0;
 		g.drawImage(board, 0, 0, getWidth(), getHeight(), null);
 		g.drawImage(terrainDeck, 954, 27, 163, 220, null);
 		c.drawObjectiveCards(g);
@@ -66,12 +74,66 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 			g.drawImage(tokensPage, 0, 0, getWidth(), getHeight(), null);
 			return;
 		}
-		
 		else if(click==clickType.finishedTurn)
 		{
 			c.drawDiscard(g);
+			Board.activePlayer++;
+			Board.activePlayer%=4;
 			//return;
 		}
+		
+//		if(Board.activePlayer == 0)
+//		{
+//			col = Color.orange;
+//			//players[activePlayer].x = 960;
+//			//players[activePlayer].y = 515;
+//		}
+//		else if(Board.activePlayer == 1)
+//		{
+//			col = Color.black;
+//			//players[activePlayer].x = 950;
+//			//players[activePlayer].y = 775;
+//		}
+//		else if(Board.activePlayer == 2)
+//		{
+//			col = Color.white;
+//			///players[activePlayer].x = 1263;
+//			//players[activePlayer].y = 515;
+//		}
+//		else if(Board.activePlayer == 3)
+//		{
+//			col = Color.blue;
+//			//players[activePlayer].x = 1263;
+//			//players[activePlayer].y = 775;
+//		}
+		
+		if(Board.activePlayer == 0)
+			P1Houses--;
+		else if(Board.activePlayer == 1)
+			P2Houses--;
+		else if(Board.activePlayer == 2)
+			P3Houses--;
+		else if(Board.activePlayer == 3)
+			P4Houses--;
+		
+		g.setFont(new Font("Times New Roman", Font.BOLD, 30));
+		g.setColor(Color.white); //p1
+		g.drawString(P1Houses + "", 960, 515);
+		g.setColor(Color.white); //p2
+		g.drawString(P2Houses + "", 1263, 515);
+		g.setColor(Color.black); //p3
+		g.drawString(P3Houses + "", 960, 775);
+		g.setColor(Color.white); //p4
+		g.drawString(P4Houses + "", 1263, 775);
+		
+//		if(count == 0)
+//		{
+//			P1Houses++;
+//			//P2Houses++;
+//			//P3Houses++;
+//			P4Houses++;
+//			count++;
+//		}
 	}
 
 	public void mouseClicked(MouseEvent e) {
