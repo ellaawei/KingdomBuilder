@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 	private Board b;
 	public enum clickType{none, terrain, finishedTurn, viewTokens, objectiveCards};
 	public static clickType click;
+	private static boolean terrainClicked = false;
 	public GamePanel() throws IOException {
 		objectives = new ArrayList<BufferedImage>();
 		currentObjectiveCards = new ArrayList<BufferedImage>();
