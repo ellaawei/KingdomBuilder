@@ -154,6 +154,7 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 	}
 
 	public void mousePressed(MouseEvent e) {
+			
 		int x = e.getX();
 		int y = e.getY();
 		click = clickType.none;
@@ -163,17 +164,19 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 		else if (x >= 1320 && x <= 1493 && y >= 162 && y <= 224) {
 			click=clickType.viewTokens;
 		}
-		else if (x >= 954 && x <= 1117 && y >= 27 && y <= 247) 
+		else if (x >= 954 && x <= 1117 && y >= 27 && y <= 247 && terrainClicked == false) 
 		{
 			if (c.getHasTerrainCardsLeft()) 
 			{
 				c.removeTerrainCard();
 			}
 			click=clickType.terrain;
+			terrainClicked = true;
 		}
 		else if(x >= 1305 && x <= 1510 && y >= 65 && y <= 140)
 		{
 			click=clickType.finishedTurn;
+			terrainClicked = false;
 		}
 		b.mouseClick(e.getPoint());
 		repaint();
