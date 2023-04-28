@@ -14,6 +14,7 @@ public class Player
     //private Settlement settlements[];
     private int score;
     private BufferedImage currentSettlement;
+    public static boolean hexClicked = false;
   //  public int settlementNum;
     //public int x = 960, y = 515;
 
