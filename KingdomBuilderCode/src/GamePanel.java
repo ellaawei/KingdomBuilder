@@ -107,14 +107,26 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 //			//players[activePlayer].y = 775;
 //		}
 		
-		if(Board.activePlayer == 0)
+		if(Board.activePlayer == 0 && Board.players[Board.activePlayer].hexClicked)
+		{
 			P1Houses--;
-		else if(Board.activePlayer == 1)
+			Board.players[Board.activePlayer].hexClicked = false;
+		}
+		if(Board.activePlayer == 1 && Board.players[Board.activePlayer].hexClicked)
+		{
 			P2Houses--;
-		else if(Board.activePlayer == 2)
+			Board.players[Board.activePlayer].hexClicked = false;
+		}
+		if(Board.activePlayer == 2 && Board.players[Board.activePlayer].hexClicked)
+		{
 			P3Houses--;
-		else if(Board.activePlayer == 3)
+			Board.players[Board.activePlayer].hexClicked = false;
+		}
+		if(Board.activePlayer == 3 && Board.players[Board.activePlayer].hexClicked)
+		{
 			P4Houses--;
+			Board.players[Board.activePlayer].hexClicked = false;
+		}
 		
 		g.setFont(new Font("Times New Roman", Font.BOLD, 30));
 		g.setColor(Color.white); //p1
