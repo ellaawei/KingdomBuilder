@@ -15,7 +15,6 @@ public class Card {
 	private int cw=149, ch=215, sx=1068, sy=316;
 	private int[] cx= {sx, sx+cw*2, sx, sx+cw*2}, cy= {sy, sy, sy+ch+40, sy+ch+40};
 	public static boolean terrainClicked = false;
-	private int count = -1;
 	
 	class TerrainCard
 	{
@@ -65,24 +64,12 @@ public class Card {
 		Collections.shuffle(terrainCards);
 	}
 	
-	public void drawTerrainCards(Graphics g) 
+	public void drawTerrainCards() 
 	{
-		if(GamePanel.click == GamePanel.clickType.terrain)
-		{
-			if(count == -1)
-			{
-				Board.activePlayer = 0;
-				//count = 0;
-			}
-			count = 0;
-			if(count == 0)
-			{
-				g.drawImage(terrainCards.get(0).image, cx[Board.activePlayer], cy[Board.activePlayer], cw, ch, null);
-				Board.players[Board.activePlayer].setTerrainColor(terrainCards.get(0).color);
-				count = 2;
-			}
-		}
-		
+		GamePanel.players.drawTerrainCards(terrainCards.get(0));
+		//if(GamePanel.click==GamePanel.clickType.terrain) {
+		//	GamePanel.players.drawPlayers(g);
+		//}
 	}
 
 	public void drawDiscard(Graphics g) 
