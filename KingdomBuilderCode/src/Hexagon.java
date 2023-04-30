@@ -6,11 +6,17 @@ public class Hexagon
 	private int[] x, y;
 	public Color color;
 	private int cx, cy; // center coordinate (x, y)
+	public boolean bOccupied;
+	Hexagon token;
+	HexType type;
+	
+	public enum HexType {None, Castle, Oracle, Tower, Harbor, Barn, Tavern, Oasis, Paddock, Farm};
 	
 	public Hexagon(Polygon p)
 	{
 		x = p.xpoints;
 		y = p.ypoints;
+		bOccupied = false;
 		
 		cx = (x[0] + x[2]) / 2;
 		cy = (y[0] + y[5]) / 2;
@@ -56,6 +62,7 @@ public class Hexagon
 		if(!terrainColor.equals(color)) {
 			return null;
 		}
+		bOccupied = true;
 		int[] hx = { (x[0]+cx)/2, (x[1]+cx)/2, (x[2]+cx)/2, (x[3]+cx)/2, (x[4]+cx)/2, (x[5]+cx)/2 };
 		int[] hy = { (y[0]+cy)/2, (y[1]+cy)/2, (y[2]+cy)/2, (y[3]+cy)/2, (y[4]+cy)/2, (y[5]+cy)/2 };
 		
