@@ -11,17 +11,14 @@ import java.util.Collections;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
-import javax.swing.plaf.ColorUIResource;
 
 public class Board {
 	private SubBoard board1, board2, board3, board4, board5, board6, board7, board8;
 	private ArrayList<SubBoard> boards;
 	Point pos;
-	Point anchor = new Point(67, 87); // Hexgon starting point
+	Point anchor = new Point(37, 87); // Hexgon starting point
 	private Hexagon[][] Hexadjacent;
 	private ArrayList<Hexagon> houses = new ArrayList<Hexagon>();
-	public static int activePlayer = -1;
-	public static Player[] players = new Player[4];
 
 	class SubBoard {
 		public BufferedImage image;
@@ -34,18 +31,6 @@ public class Board {
 	}
 
 	public Board() throws IOException {
-		players[0] = new Player();
-		//players[0].settlementNum = 40;
-		players[0].setSettlementColor(new Color(255, 128, 0));
-		players[1] = new Player();
-		//players[1].settlementNum = 40;
-		players[1].setSettlementColor(new Color(124, 124, 124));
-		players[2] = new Player();
-		//players[2].settlementNum = 40;
-		players[2].setSettlementColor(Color.white);
-		players[3] = new Player();
-		//players[3].settlementNum = 40;
-		players[3].setSettlementColor(new Color(0, 112, 255));
 		boards = new ArrayList<SubBoard>();
 		board1 = new SubBoard(ImageIO.read(this.getClass().getResource("/pictures/Board1.png")), "One.txt");
 		board2 = new SubBoard(ImageIO.read(this.getClass().getResource("/pictures/Board2.png")), "Two.txt");
@@ -101,7 +86,7 @@ public class Board {
 		}
 		input = new Scanner(new File(boards.get(2).file));
 		for (int row = 10; row < 20; row++) {
-			for (int col = 1; col < 10; col++) {
+			for (int col = 0; col < 10; col++) {
 				Hexadjacent[row][col].setColor(input.nextLine());
 			}
 		}
@@ -124,10 +109,10 @@ public class Board {
 	}
 
 	public void drawBoard(Graphics g) {
-		g.drawImage(boards.get(0).image, -111, 44, 775, 445, null);
-		g.drawImage(boards.get(1).image, 283, 44, 775, 445, null);
-		g.drawImage(boards.get(2).image, -111, 393, 775, 445, null);
-		g.drawImage(boards.get(3).image, 283, 393, 775, 445, null);
+		g.drawImage(boards.get(0).image, -141, 44, 775, 445, null);
+		g.drawImage(boards.get(1).image, 253, 44, 775, 445, null);
+		g.drawImage(boards.get(2).image, -141, 393, 775, 445, null);
+		g.drawImage(boards.get(3).image, 253, 393, 775, 445, null);
 //		if(activePlayer == 0)
 //		{
 //			g.drawString(players[0].getSettlementNum() + "", 960, 515);
@@ -144,25 +129,32 @@ public class Board {
 			g.fillPolygon(p);
 			g.drawPolygon(p);
 		}
-		//	players[activePlayer].paintPlayer(g);
+		GamePanel.players.drawPlayers(g);
 	}
 
 	public void mouseClick(Point p) {
+		if (GamePanel.players.getIsFinsh() == true)
+			return;
+		
 		for (int row = 0; row < 20; row++) {
 			for (int col = 0; col < 20; col++) {
 				Hexagon h = Hexadjacent[row][col];
 				Polygon pol = new Polygon(h.xpoints(), h.ypoints(), 6);
+
+				if (h.bOccupied) // already selected
+					continue;
 				if (!pol.contains(p))
 					continue;
 
-				if (activePlayer >= 0) {
-					Hexagon hex = h.getHouse(players[activePlayer].getTerrainColor(), players[activePlayer].getSettlementColor());
+				Player activePlayer = GamePanel.players.getActivePlayer();
+				if (activePlayer != null) {
+					Hexagon hex = h.getHouse(activePlayer.getTerrainColor(), activePlayer.getSettlementColor());
 
 					if (hex != null)
 					{
-						players[activePlayer].addTile(h);
+						activePlayer.addTile(h);
 						houses.add(hex);
-						//players[activePlayer].settlementsLeft(1);
+						activePlayer.settlementsLeft(1);
 					}
 				}
 			}
