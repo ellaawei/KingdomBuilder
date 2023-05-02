@@ -71,13 +71,18 @@ public class Player
     
     public void settlementsLeft(int x)
     {
-    	settlementNum = settlementNum - x;
+    	if(settlementNum > 0) //change if statement later to a "canAdd" variables to implement tiles as well as the 3 default
+    		settlementNum = settlementNum - x;
     }
     public void paintPlayer(Graphics g)
-    {
+    {    	
     	g.setColor(Color.YELLOW);
-		g.setFont(new Font("Times New Roman", Font.BOLD, 30));
-		g.drawString(getSettlementNum() + "", x, y);
+    	g.setFont(new Font("Times New Roman", Font.BOLD, 30));
+    	if(settlementNum > 0) 
+    		g.drawString(getSettlementNum() + "", x, y);
+    	else 
+    		g.drawString(0 + "", x, y);
+    	
     }
     public void sellsFirst(boolean first) {}
     public void setLocationTiles(ArrayList<Tiles>locations) {}
