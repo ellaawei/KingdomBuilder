@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Players 
 {
@@ -14,11 +16,14 @@ public class Players
 	private Card.TerrainCard activeCard;
 	private Card.TerrainCard discardCard;
 	private boolean bIsFinish = true;
+	private Map<Hexagon.HexType, Token> tokens = new HashMap<Hexagon.HexType, Token>();
+	public static int clickCount = 0;
+	public int first = (int)(Math.floor(Math.random() *4));
 	
 	public Players()
 	{
 		listPlayers = new Player[4];
-		activePlayer = -1;
+		activePlayer = first;
 		discardCard = null;
 		bIsFinish = true;
 		
@@ -48,6 +53,41 @@ public class Players
 		{
 			g.drawImage(discardCard.image, SX+170, SY+5, cw, ch, null);
 		}
+		
+//		
+//		if(first == 0)
+//		{
+//			listPlayers[0].setActive(true);
+//			listPlayers[1].setActive(false);
+//			listPlayers[2].setActive(false);
+//			listPlayers[3].setActive(false);
+//		}
+//		else if(first == 1)
+//		{
+//			listPlayers[1].setActive(true);
+//			listPlayers[0].setActive(false);
+//			listPlayers[2].setActive(false);
+//			listPlayers[3].setActive(false);
+//		}
+//		else if(first == 2)
+//		{
+//			listPlayers[2].setActive(true);
+//			listPlayers[0].setActive(false);
+//			listPlayers[1].setActive(false);
+//			listPlayers[3].setActive(false);
+//		}
+//		else if(first == 3)
+//		{
+//			listPlayers[3].setActive(true);
+//			listPlayers[0].setActive(false);
+//			listPlayers[1].setActive(false);
+//			listPlayers[2].setActive(false);
+//		}
+		listPlayers[0].setActive(false);
+		listPlayers[1].setActive(false);
+		listPlayers[2].setActive(false);
+		listPlayers[3].setActive(false);
+		listPlayers[activePlayer].setActive(true);
 		listPlayers[0].paintPlayer(g);
 		listPlayers[1].paintPlayer(g);
 		listPlayers[2].paintPlayer(g);
@@ -65,9 +105,6 @@ public class Players
 	
 	public Player getActivePlayer()
 	{
-		if (activePlayer < 0)
-			return null;
-		
 		return listPlayers[activePlayer];
 	}
 	
@@ -82,8 +119,6 @@ public class Players
 	{
 		if (bIsFinish == true)
 		{
-			activePlayer++;
-			activePlayer = activePlayer % 4;
 			activeCard = card;
 			bIsFinish = false;
 		}
@@ -91,12 +126,10 @@ public class Players
 	
 	public void clickedFinish()
 	{
-		listPlayers[0].setActive(false);
-		listPlayers[1].setActive(false);
-		listPlayers[2].setActive(false);
-		listPlayers[3].setActive(false);
+		nextPlayer();
 		discardCard = activeCard;
 		bIsFinish = true;
+		clickCount = 0;
 	}
 	
 	public boolean getIsFinsh()
