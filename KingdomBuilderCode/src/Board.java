@@ -121,13 +121,17 @@ public class Board {
 //		{
 //			//g.drawString(players[1].getSettlementNum() + "", 960, 515);
 //		}
-		
+		int count = 40;
+
 		for (Hexagon h : houses) 
-		{
+		{	
 			Polygon p = new Polygon(h.xpoints(), h.ypoints(), 6);
 			g.setColor(h.getColor());
 			g.fillPolygon(p);
 			g.drawPolygon(p);
+			count++;
+			if (count == 40)
+				break;
 		}
 		GamePanel.players.drawPlayers(g);
 	}
@@ -138,6 +142,7 @@ public class Board {
 		
 		for (int row = 0; row < 20; row++) {
 			for (int col = 0; col < 20; col++) {
+			
 				Hexagon h = Hexadjacent[row][col];
 				Polygon pol = new Polygon(h.xpoints(), h.ypoints(), 6);
 
