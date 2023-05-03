@@ -20,6 +20,7 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 	private Card c;
 	private Board b;
 	public static Players players;
+	public static BufferedImage activeToken;
 	
 	public enum clickType{none, terrain, finishedTurn, viewTokens, objectiveCards};
 	public static clickType click;
@@ -35,6 +36,7 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 		terrainDeck = ImageIO.read(this.getClass().getResource("/pictures/TerrainDeck.png"));
 		objCardsPage = ImageIO.read(this.getClass().getResource("/pictures/ObjectiveCardsPage.png"));
 		tokensPage = ImageIO.read(this.getClass().getResource("/pictures/TokensPage.png"));
+		activeToken = ImageIO.read(this.getClass().getResource("/pictures/activePlayer.png"));
 		clickedTerrain = false;
 		addMouseListener(this);
 		repaint();
@@ -108,8 +110,11 @@ public class GamePanel extends JPanel implements MouseMotionListener, MouseListe
 		}
 		else if(x >= 1305 && x <= 1510 && y >= 65 && y <= 140)
 		{
-			click=clickType.finishedTurn;
-			players.clickedFinish();
+			if (Players.clickCount == 3)
+			{
+				click=clickType.finishedTurn;
+				players.clickedFinish();
+			}
 		}
 		b.mouseClick(e.getPoint());
 		repaint();
