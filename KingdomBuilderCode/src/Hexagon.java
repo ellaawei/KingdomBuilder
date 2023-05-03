@@ -7,13 +7,20 @@ public class Hexagon
 	public Color color;
 	private int cx, cy; // center coordinate (x, y)
 	public boolean bOccupied;
-	Hexagon token;
+	public HexType neighborTokenType = HexType.None;
+	public int tokenRow, tokenCol;
 	HexType type;
 	
-	public enum HexType {None, Castle, Oracle, Tower, Harbor, Barn, Tavern, Oasis, Paddock, Farm};
-	
+	public void setNeighborToken(HexType t, int row, int col)
+	{
+		neighborTokenType = t;
+		tokenRow = row;
+		tokenCol = col;
+	}
+	public enum HexType {None, Castle, Oracle, Tower, Harbor, Barn, Tavern, Oasis, Paddock, Farm };
 	public Hexagon(Polygon p)
 	{
+		type = HexType.None;
 		x = p.xpoints;
 		y = p.ypoints;
 		bOccupied = false;
@@ -50,11 +57,22 @@ public class Hexagon
 			color = new Color(102, 51, 0); break;
 		case "Dark Green":
 			color = new Color(0, 102, 0); break;
+		default:
+			if (sc.startsWith("Special"))
+			{
+				String s = sc.substring("Special ".length());
+				type = HexType.valueOf(s);
+			}
 		}
 	}
 	public Color getColor()
 	{
 		return color;
+	}
+	
+	public HexType getType()
+	{
+		return type;
 	}
 	
 	public Hexagon getHouse(Color terrainColor, Color settlementColor)
@@ -70,5 +88,15 @@ public class Hexagon
 		Hexagon h = new Hexagon(p);
 		h.color = settlementColor;
 		return h;
+	}
+	
+	public HexType getHexType()
+	{
+		if (type != HexType.Castle && type != HexType.None)
+		{
+			return type;
+		}
+		
+		return HexType.None;
 	}
 }
