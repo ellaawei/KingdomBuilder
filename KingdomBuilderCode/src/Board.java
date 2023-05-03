@@ -44,11 +44,11 @@ public class Board {
 		boards.add(board2);
 		boards.add(board3);
 		boards.add(board4);
-		boards.add(board5);
 		boards.add(board6);
+		boards.add(board5);
 		boards.add(board7);
 		boards.add(board8);
-		Collections.shuffle(boards);
+		//Collections.shuffle(boards);
 
 		Hexadjacent = new Hexagon[20][20];
 		RenderUtil r = new RenderUtil();
@@ -97,6 +97,39 @@ public class Board {
 			}
 		}
 
+		// preset each hexgon with its neighboring token
+		for (int row = 0; row < 20; row++) 
+		{
+			for (int col = 0; col < 20; col++) 
+			{
+				Hexagon h = Hexadjacent[row][col];
+				Hexagon.HexType type = h.getType();
+				if (type != Hexagon.HexType.None && type != Hexagon.HexType.Castle)
+				{
+					int a = 0;
+					if (type == Hexagon.HexType.Barn)
+						a = 5;
+					if (row % 2 == 0)
+					{
+						Hexadjacent[row-1][col-1].setNeighborToken(type, row, col);	
+						Hexadjacent[row-1][col].setNeighborToken(type, row, col);	
+						Hexadjacent[row][col-1].setNeighborToken(type, row, col);
+						Hexadjacent[row][col+1].setNeighborToken(type, row, col);
+						Hexadjacent[row+1][col-1].setNeighborToken(type, row, col);
+						Hexadjacent[row+1][col].setNeighborToken(type, row, col);
+					}
+					else
+					{
+						Hexadjacent[row-1][col].setNeighborToken(type, row, col);	
+						Hexadjacent[row-1][col+1].setNeighborToken(type, row, col);	
+						Hexadjacent[row][col-1].setNeighborToken(type, row, col);
+						Hexadjacent[row][col+1].setNeighborToken(type, row, col);
+						Hexadjacent[row+1][col].setNeighborToken(type, row, col);
+						Hexadjacent[row+1][col+1].setNeighborToken(type, row, col);
+					}
+				}
+			}
+		}
 		int i = 0;
 	}
 
@@ -121,28 +154,26 @@ public class Board {
 //		{
 //			//g.drawString(players[1].getSettlementNum() + "", 960, 515);
 //		}
-		int count = 40;
-
+		
 		for (Hexagon h : houses) 
-		{	
+		{
 			Polygon p = new Polygon(h.xpoints(), h.ypoints(), 6);
 			g.setColor(h.getColor());
 			g.fillPolygon(p);
 			g.drawPolygon(p);
-			count++;
-			if (count == 40)
-				break;
 		}
 		GamePanel.players.drawPlayers(g);
 	}
 
-	public void mouseClick(Point p) {
+	public void mouseClick(Point p)  {
 		if (GamePanel.players.getIsFinsh() == true)
 			return;
 		
+		if (Players.clickCount == 3)
+			return; 
+		
 		for (int row = 0; row < 20; row++) {
 			for (int col = 0; col < 20; col++) {
-			
 				Hexagon h = Hexadjacent[row][col];
 				Polygon pol = new Polygon(h.xpoints(), h.ypoints(), 6);
 
@@ -157,9 +188,14 @@ public class Board {
 
 					if (hex != null)
 					{
+						Players.clickCount++;
 						activePlayer.addTile(h);
 						houses.add(hex);
 						activePlayer.settlementsLeft(1);
+						
+						Hexagon.HexType t = h.neighborTokenType;
+						if (t != Hexagon.HexType.None)
+							activePlayer.AddToken(t);
 					}
 				}
 			}
