@@ -79,6 +79,7 @@ Yellow
 Brown
 Blue
 Blue
+Blue
 Brown
 Pink
 Blue
@@ -86,7 +87,6 @@ Blue
 Blue
 Yellow
 Yellow
-Blue
 Blue 
 Blue
 Blue
