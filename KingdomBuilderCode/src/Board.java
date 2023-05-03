@@ -16,7 +16,7 @@ public class Board {
 	private SubBoard board1, board2, board3, board4, board5, board6, board7, board8;
 	private ArrayList<SubBoard> boards;
 	Point pos;
-	Point anchor = new Point(37, 87); // Hexgon starting point
+	Point anchor = new Point(37, 87); // Hexagon starting point
 	private Hexagon[][] Hexadjacent;
 	private ArrayList<Hexagon> houses = new ArrayList<Hexagon>();
 
