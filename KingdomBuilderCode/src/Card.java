@@ -81,8 +81,25 @@ public class Card {
 		}
 	}
 
-	public void removeTerrainCard() {
-		terrainCards.remove(0);
+	public void removeTerrainCard() 
+	{
+		if (terrainCards.size() > 1)
+			terrainCards.remove(0);
+		else
+		{
+			try
+			{
+				for (int i = 0; i < 5; i++) {
+					terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainGrass.png")), Color.GREEN));
+					terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainCanyon.png")), new Color(102, 51, 0)));
+					terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainDesert.png")), Color.YELLOW));
+					terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainFlower.png")), Color.PINK));
+					terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainForest.png")), new Color(0, 102, 0)));
+				}
+			}catch(Exception e) {}
+			Collections.shuffle(terrainCards);
+			terrainCards.remove(0);
+		}
 	}
 
 	//public ArrayList<BufferedImage> getTerrainCards() {
