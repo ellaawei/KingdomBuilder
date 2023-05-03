@@ -87,17 +87,12 @@ public class Card {
 			terrainCards.remove(0);
 		else
 		{
-			try
-			{
-				for (int i = 0; i < 5; i++) {
-					terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainGrass.png")), Color.GREEN));
-					terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainCanyon.png")), new Color(102, 51, 0)));
-					terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainDesert.png")), Color.YELLOW));
-					terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainFlower.png")), Color.PINK));
-					terrainCards.add(new TerrainCard(ImageIO.read(this.getClass().getResource("/pictures/TerrainForest.png")), new Color(0, 102, 0)));
-				}
-			}catch(Exception e) {}
-			Collections.shuffle(terrainCards);
+			try {
+				refill();
+			} catch (IOException e) {
+				System.out.println("card class");
+			}
+			//Collections.shuffle(terrainCards);
 			terrainCards.remove(0);
 		}
 	}
