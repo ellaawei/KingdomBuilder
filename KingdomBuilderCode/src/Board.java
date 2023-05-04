@@ -358,13 +358,13 @@ public class Board {
 			}
 			else if (token.type == Hexagon.HexType.Barn)
 			{
-				if (h.color == token.player.settlementColor)
+				if (h.color == token.player.terrainColor)
 				{	
 					ArrayList<Hexagon> list = token.player.getLocationTiles();
 					
 					if (isAdjacent(h, list))
 					{
-						Hexagon hex = h.getHouse(token.player.settlementColor, token.player.settlementColor);
+						Hexagon hex = h.getHouse(token.player.terrainColor, token.player.terrainColor);
 						houses.add(hex);
 						
 						houses.remove(activeHex.settlement);
