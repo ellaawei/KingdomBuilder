@@ -1,10 +1,5 @@
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Polygon;
-import java.util.ArrayList;
 
 public class Hexagon 
 {
@@ -15,13 +10,10 @@ public class Hexagon
 	public HexType neighborTokenType = HexType.None;
 	public int tokenRow, tokenCol;
 	HexType type;
-	Hexagon settlement;
-	public int row;
-	public int col;
+	public boolean settled;
 	
 	public void setNeighborToken(HexType t, int row, int col)
 	{
-		settlement = null;
 		neighborTokenType = t;
 		tokenRow = row;
 		tokenCol = col;
@@ -71,14 +63,6 @@ public class Hexagon
 			{
 				String s = sc.substring("Special ".length());
 				type = HexType.valueOf(s);
-				if (type != Hexagon.HexType.Castle)
-				{
-					ArrayList<Hexagon> list = Token.boardTokens.get(type);
-					if (list == null)
-						list = new ArrayList<Hexagon>();
-					list.add(this);
-					Token.boardTokens.put(type, list);
-				}
 			}
 		}
 	}
@@ -102,9 +86,9 @@ public class Hexagon
 		int[] hy = { (y[0]+cy)/2, (y[1]+cy)/2, (y[2]+cy)/2, (y[3]+cy)/2, (y[4]+cy)/2, (y[5]+cy)/2 };
 		
 		Polygon p = new Polygon(hx, hy, 6);
-		settlement = new Hexagon(p);
-		settlement.color = settlementColor;
-		return settlement;
+		Hexagon h = new Hexagon(p);
+		h.color = settlementColor;
+		return h;
 	}
 	
 	public HexType getHexType()
@@ -117,21 +101,13 @@ public class Hexagon
 		return HexType.None;
 	}
 	
-	public void DrawAsActive(Graphics g)
+	public void setSettlement(boolean b)
 	{
-		Graphics2D g2d = (Graphics2D)g;
-        g2d.setStroke(new BasicStroke(3));
-        g2d.setColor(Color.RED);
-        g2d.drawPolygon(x, y, 6);
+		settled = b;
 	}
-	
-	public void DrawTokenNumber(int num, Graphics g)
+
+	public boolean getSettlement() 
 	{
-		if (num > 0)
-		{
-			g.setColor(Color.RED);
-			g.setFont(new Font("Times New Roman", Font.BOLD, 30));
-			g.drawString(""+num, cx-5, cy+15);
-		}
+		return settled;
 	}
 }
