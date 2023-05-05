@@ -1,30 +1,29 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Players 
 {
-	private static Player[] listPlayers;
+	public static Player[] listPlayers;
     public final static int SX = 940, SY = 27;
 	private int startx = SX, starty = SY+488;
-	private static int activePlayer;
+	private int activePlayer;
 	
 	private int cw=147, ch=215, sx=SX+95, sy=SY+289;
 	private int[] cx= {sx, sx+cw*2, sx, sx+cw*2}, cy= {sy, sy, sy+ch+40, sy+ch+40};
 	private Card.TerrainCard activeCard;
 	private Card.TerrainCard discardCard;
 	private boolean bIsFinish = true;
+	private Map<Hexagon.HexType, Token> tokens = new HashMap<Hexagon.HexType, Token>();
 	public static int clickCount = 0;
-	public static ArrayList<Token> listHaxTokens = new ArrayList<Token>();
-	private int firstPlayer = 0;
+	public int first = (int)(Math.floor(Math.random() *4));
 	
 	public Players()
 	{
 		listPlayers = new Player[4];
-		firstPlayer = (int)(Math.floor(Math.random() *4));
+		activePlayer = first;
 		discardCard = null;
 		bIsFinish = true;
 		
@@ -40,10 +39,6 @@ public class Players
 		listPlayers[3] = new Player(startx + 295, starty + 260);
 		listPlayers[3].settlementNum = 40;
 		listPlayers[3].setSettlementColor(new Color(51, 153, 255));  // light blue
-		
-		listPlayers[firstPlayer].isFirstPlay = true;
-		activePlayer = firstPlayer;
-		setActivePayer(activePlayer);
 	}
 	
 	public void drawPlayers(Graphics g) 
@@ -58,18 +53,48 @@ public class Players
 		{
 			g.drawImage(discardCard.image, SX+170, SY+5, cw, ch, null);
 		}
-		listPlayers[0].setActive(false);
-		listPlayers[1].setActive(false);
-		listPlayers[2].setActive(false);
-		listPlayers[3].setActive(false);
-		listPlayers[activePlayer].setActive(true);
+		
+		
+		if(first == 0)
+		{
+			listPlayers[0].setActive(true);
+			listPlayers[1].setActive(false);
+			listPlayers[2].setActive(false);
+			listPlayers[3].setActive(false);
+		}
+		else if(first == 1)
+		{
+			listPlayers[1].setActive(true);
+			listPlayers[0].setActive(false);
+			listPlayers[2].setActive(false);
+			listPlayers[3].setActive(false);
+		}
+		else if(first == 2)
+		{
+			listPlayers[2].setActive(true);
+			listPlayers[0].setActive(false);
+			listPlayers[1].setActive(false);
+			listPlayers[3].setActive(false);
+		}
+		else if(first == 3)
+		{
+			listPlayers[3].setActive(true);
+			listPlayers[0].setActive(false);
+			listPlayers[1].setActive(false);
+			listPlayers[2].setActive(false);
+		}
+//		listPlayers[0].setActive(false);
+//		listPlayers[1].setActive(false);
+//		listPlayers[2].setActive(false);
+//		listPlayers[3].setActive(false);
+//		listPlayers[activePlayer].setActive(true);
 		listPlayers[0].paintPlayer(g);
 		listPlayers[1].paintPlayer(g);
 		listPlayers[2].paintPlayer(g);
 		listPlayers[3].paintPlayer(g);
 	}
 	
-	public void setActivePayer(int n)
+	public void setActivePlayer(int n)
 	{
 		activePlayer = n;
 		listPlayers[n].setActive(true);
@@ -83,50 +108,11 @@ public class Players
 		return listPlayers[activePlayer];
 	}
 	
-	public static Token getActiveToken()
-	{
-		for (int i = 0; i < listHaxTokens.size(); i++)
-		{
-			if (listHaxTokens.get(i).bSelectedToken)
-				return listHaxTokens.get(i);
-		}
-		
-		return null;
-	}
-	public static void setActiveToken(Token t)
-	{
-		try
-		{
-			if (t == null)
-			{
-				setAlltokenNotActive();
-				return;
-			}
-			for (int i = 0; i < listHaxTokens.size(); i++)
-			{
-				Token tt = listHaxTokens.get(i);
-				if (t == tt && tt.player == listPlayers[activePlayer])
-				{
-					setAlltokenNotActive();
-					tt.bSelectedToken = true;
-				}
-			}
-		}
-		catch (Exception e) {};
-	}
-	
-	private static void setAlltokenNotActive()
-	{
-		for (int i = 0; i < listHaxTokens.size(); i++)
-		{
-			listHaxTokens.get(i).bSelectedToken = false;
-		}
-	}
 	public void nextPlayer()
 	{
 		activePlayer++;
 		activePlayer = activePlayer % 4;
-		setActivePayer(activePlayer);
+		setActivePlayer(activePlayer);
 	}
 	
 	public void drawTerrainCards(Card.TerrainCard card) 
@@ -140,7 +126,6 @@ public class Players
 	
 	public void clickedFinish()
 	{
-		listPlayers[activePlayer].finishTurn();
 		nextPlayer();
 		discardCard = activeCard;
 		bIsFinish = true;
