@@ -12,65 +12,37 @@ public class Player
     
     private boolean isFirst;
     private ArrayList<Hexagon> locationTiles;
-    private ArrayList<Token> tokens;
-    //private Map<Hexagon.HexType, Token> tokens;
+    private Map<Hexagon.HexType, Token> tokens;
     
     //private Settlement settlements[];
-    private int score;
+    public static int score;
     private BufferedImage currentSettlement;
     public int settlementNum;
     public int x, y;
     private boolean isActive;
     private int[] tx, ty;
     private int ax, ay;
-    public boolean isFirstPlay = false;
 
     public Player(int x, int y)
     {
     	this.x = x;
     	this.y = y;
     	// token coordinates
-    	tx = new int[] {x-3, x+42, x-3, x+42};
+    	tx = new int[] {x-5, x+35, x-5, x+35};
     	ty = new int[] {y-150, y-150, y-95, y-95};
     	// active token coordinate
     	ax = x + 20;
     	ay = y - 240;
     	//settlements = new Settlement[40];
         locationTiles = new ArrayList<>();
-        tokens = new ArrayList<Token>() ;
+        tokens = new HashMap<Hexagon.HexType, Token>() ;
         settlementNum = 40;
         isActive = false;
     }
     
     public void AddToken(Hexagon.HexType type) 
     {
-    	// check if token added
-    	boolean bAdded = false;
-    	for (int i = 0; i < tokens.size(); i++)
-    	{
-    		if (type == tokens.get(i).type)
-    		{
-    			bAdded = true;
-    			break;
-    		}
-    	}
-    	
-    	if (bAdded == false)
-    	{
-    		int index = tokens.size();			
-    		Polygon p = RenderUtil.createHexagon(tx[index]+20, ty[index]+25, 22.7);
-    		
-    		Token t = Token.getToken(type);
-    		if (t != null)
-    		{
-	    		t.polygon = p;
-	    		t.bFromThisTurn = true; // add token of this turn
-	    		tokens.add(t);
-	    		Hexagon h = new Hexagon(p);
-	    		t.setPlayer(this);
-	    		Players.listHaxTokens.add(t);
-    		}
-    	}
+    	tokens.put(type, new Token(type));
     }
     public void setActive(boolean bActive)
     {
@@ -102,10 +74,6 @@ public class Player
     {
     	locationTiles.add(h);
     }
-    public void removeTile(Hexagon h)
-    {
-    	locationTiles.remove(h);
-    }
     public ArrayList<Hexagon> getLocationTiles() {
     	return locationTiles;
     }
@@ -120,37 +88,32 @@ public class Player
     {
     	if(settlementNum > 0) //change if statement later to a "canAdd" variables to implement tiles as well as the 3 default
     		settlementNum = settlementNum - x;
+    	//settlementNum = settlementNum - x;
     }
     public void paintPlayer(Graphics g)
     {
     	g.setColor(Color.YELLOW);
 		g.setFont(new Font("Times New Roman", Font.BOLD, 30));
-		
-		if (settlementNum > 0)
-			g.drawString(getSettlementNum() + "", x, y);
-		else
-			g.drawString(0 + "", x, y);
+		if(settlementNum > 0) 
+    		g.drawString(getSettlementNum() + "", x, y);
+    	else 
+    		g.drawString(0 + "", x, y);
+		//g.drawString(getSettlementNum() + "", x, y);
 		
 		// paint active token
-		if (isFirstPlay)
+		if (isActive)
 		{
 			g.drawImage(GamePanel.activeToken, ax, ay, 50, 50, null);
 		}
 		// paint tokens
-		for (int i = 0; i < tokens.size(); i++) 
+		int index = 0;
+		for (Map.Entry<Hexagon.HexType, Token> entry : tokens.entrySet()) 
 		{
-	        Token t = tokens.get(i);
-	        t.setCoordinate(tx[i], ty[i]);
+	        Token t = entry.getValue();
+	        t.setCoordinate(tx[index], ty[index]);
+	        index++;
+	        index = index%4;
 	        t.paint(g);
-	    }
-    }
-    
-    public void finishTurn()
-    {
-    	for (int i = 0; i < tokens.size(); i++) 
-		{
-	        Token t = tokens.get(i);
-	        t.bFromThisTurn = false;
 	    }
     }
     public void sellsFirst(boolean first) {}
